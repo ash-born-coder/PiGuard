@@ -26,6 +26,14 @@ The project will be developed in several stages:
 
 ## Hardware
 
+### Initial Hardware Setup
+
+The Raspberry Pi Zero W used for this project.
+
+![Raspberry Pi Zero W](images/hardware/Pi%20zero%2001.jpeg)
+
+![Initial Hardware Setup](images/hardware/Pi%20zero%2002.jpeg)
+
 | Component | Purpose |
 |---|---|
 | Raspberry Pi Zero W | Main computer running Pi-hole |
