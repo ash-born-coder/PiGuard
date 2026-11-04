@@ -38,6 +38,8 @@ Output:
 
 **Result:** DHCP reservation configured and IP address verified.
 
+![DHCP Address Reservation](../images/software/dhcp-reservation.png)
+
 ## 2. Preparing and Installing Pi-hole
 
 Pi-hole is open-source DNS filtering software that blocks requests to unwanted domains while forwarding permitted requests to an upstream DNS resolver.
@@ -82,6 +84,8 @@ The installer successfully downloaded the blocklist:
 ```
 
 **Result:** Pi-hole was installed successfully with 77,759 domains loaded into its filtering database.
+
+![Pi-hole Automated Installer](../images/software/pihole-installer.png)
 
 ## 3. Web Dashboard Configuration
 
