@@ -53,7 +53,9 @@ Since the Raspberry Pi Zero W has limited hardware resources, these measurements
 
 ### System Resource Verification
 
-![System Resources](../images/software/system-resources.png)
+![System Resources](../images/software/diskSize.png)
+![System Resources](../images/software/ramSize.png)
+
 
 ## 3. Testing Internet Connectivity
 
