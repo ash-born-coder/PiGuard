@@ -2,7 +2,7 @@
 
 ## Overview
 
-The objective of this milestone was to configure my Raspberry Pi Zero W as a DNS filtering server using Pi-hole.
+The objective of this step was to configure my Raspberry Pi Zero W as a DNS filtering server using Pi-hole.
 
 I configured a DHCP reservation, installed Pi-hole, selected an upstream DNS provider, and verified DNS resolution and advertisement blocking using Windows PowerShell.
 
