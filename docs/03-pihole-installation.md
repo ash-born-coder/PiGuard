@@ -18,7 +18,7 @@ Since DHCP-assigned addresses can change, I configured an address reservation on
 |---|---|
 | Hostname | `pihole` |
 | Interface | `wlan0` |
-| MAC address | `B8:27:EB:4B:CD:92` |
+| MAC address | `B8:27:XX:XX:XX:XX` |
 | Reserved IP | `192.168.0.104` |
 | Router IP | `192.168.0.1` |
 
