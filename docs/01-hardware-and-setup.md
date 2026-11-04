@@ -54,9 +54,9 @@ Since I wasn't sure whether Wi-Fi and SSH had been configured correctly, I decid
 - [x] Select Raspberry Pi hardware
 - [x] Prepare microSD card
 - [x] Write Raspberry Pi OS Lite
-- [ ] Boot the Raspberry Pi Zero W
-- [ ] Establish SSH connection
-- [ ] Verify the operating system
+- [x] Boot the Raspberry Pi Zero W
+- [x] Establish SSH connection
+- [x] Verify the operating system
 
 ## Next Step
 
