@@ -70,6 +70,7 @@ The results were:
 - 4 packets transmitted and received
 - 0% packet loss
 - The first test had an average response time of approximately 12 ms, with 0% packet loss.
+
 This confirmed that the Raspberry Pi could reach an external IP address.
 
 ### Network Connectivity Test
