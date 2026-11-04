@@ -182,7 +182,7 @@ The queries originated from the Windows client at `192.168.0.113`.
 
 PiGuard successfully passed its initial DNS resolution and filtering tests.
 
-Through this milestone, I gained practical experience with DHCP reservations, MAC addressing, DNS resolution, upstream DNS providers, Linux software installation, and network troubleshooting using `nslookup`.
+Through this step, I gained practical experience with DHCP reservations, MAC addressing, DNS resolution, upstream DNS providers, Linux software installation, and network troubleshooting using `nslookup`.
 
 The Raspberry Pi is now functioning as a DNS filtering server, although it has not yet been configured as the default DNS server for other devices.
 
