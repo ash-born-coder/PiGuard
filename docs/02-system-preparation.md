@@ -51,6 +51,10 @@ Only 16% of the storage was being used, and the system still had approximately 3
 
 Since the Raspberry Pi Zero W has limited hardware resources, these measurements will serve as a baseline for comparing performance after installing Pi-hole.
 
+### System Resource Verification
+
+![System Resources](../images/software/system-resources.png)
+
 ## 3. Testing Internet Connectivity
 
 Before installing Pi-hole, I checked whether the Raspberry Pi could communicate with an external server.
@@ -66,6 +70,10 @@ The results were:
 - Average response time of approximately 22.4 ms
 
 This confirmed that the Raspberry Pi could reach an external IP address.
+
+### Network Connectivity Test
+
+![Network Verification](../images/software/network-verification.png)
 
 ## 4. Testing DNS Resolution
 
