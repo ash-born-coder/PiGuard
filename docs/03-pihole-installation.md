@@ -6,7 +6,7 @@ The objective of this step was to configure my Raspberry Pi Zero W as a DNS filt
 
 I configured a DHCP reservation, installed Pi-hole, selected an upstream DNS provider, and verified DNS resolution and advertisement blocking using Windows PowerShell.
 
-All tests were performed without modifying the router's DNS configuration.
+All DNS tests were performed directly against Pi-hole without changing the router's default DNS settings or the Windows PC's DNS configuration.
 
 ## 1. DHCP Address Reservation
 
