@@ -14,6 +14,8 @@ Pi-hole requires a consistent IP address so that other devices can reliably reac
 
 Since DHCP-assigned addresses can change, I configured an address reservation on my TP-Link Archer A5 router under **DHCP → Address Reservation**.
 
+![DHCP Address Reservation](../images/software/dhcp-reservation.png)
+
 | Parameter | Configuration |
 |---|---|
 | Hostname | `pihole` |
@@ -38,8 +40,6 @@ Output:
 
 **Result:** DHCP reservation configured and IP address verified.
 
-![DHCP Address Reservation](../images/software/dhcp-reservation.png)
-
 ## 2. Preparing and Installing Pi-hole
 
 Pi-hole is open-source DNS filtering software that blocks requests to unwanted domains while forwarding permitted requests to an upstream DNS resolver.
@@ -59,6 +59,8 @@ curl -sSL https://install.pi-hole.net | bash
 ```
 
 The installer detected the Raspberry Pi Zero W's ARMv6 architecture and installed the Pi-hole FTL service.
+
+![Pi-hole Automated Installer](../images/software/pihole-installer.png)
 
 ### Installation configuration
 
@@ -84,8 +86,6 @@ The installer successfully downloaded the blocklist:
 ```
 
 **Result:** Pi-hole was installed successfully with 77,759 domains loaded into its filtering database.
-
-![Pi-hole Automated Installer](../images/software/pihole-installer.png)
 
 ## 3. Web Dashboard Configuration
 
