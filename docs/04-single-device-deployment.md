@@ -99,6 +99,7 @@ After flushing the Windows DNS cache, I executed:
 ```powershell
 nslookup google.com
 ```
+![DNS Timeout After PiGuard Shutdown](../images/software/dns-primary-timeout.png)
 
 The request timed out because `nslookup` continued querying the unavailable PiGuard server.
 
@@ -118,7 +119,7 @@ Resolve-DnsName google.com -Type A -DnsOnly
 
 This command successfully returned IPv4 addresses while PiGuard was offline.
 
-![DNS Failover Testing](../images/software/dns-failover-test.png)
+![Successful DNS Resolution Using Router](../images/software/dns-router-backup.png)
 
 **Result:** Windows DNS resolution remained functional during the outage, consistent with the availability of the alternate DNS server. The test did not establish strict failover behavior.
 
