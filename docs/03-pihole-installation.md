@@ -132,23 +132,28 @@ Pi-hole returned valid public IPv4 and IPv6 addresses.
 
 **Status: PASS — DNS resolution successful.**
 
-### Test 2 — Blocked domain
+### Test 2 — Blocked Domain
+
+To verify DNS filtering, I queried `doubleclick.net`, an advertising-related domain included in Pi-hole's blocklist.
 
 ```powershell
 nslookup doubleclick.net 192.168.0.104
 ```
 
-Result:
+Output:
 
 ```text
-Name: doubleclick.net
+Server:  pi.hole
+Address: 192.168.0.104
+
+Name:    doubleclick.net
 Addresses: ::
            0.0.0.0
 ```
 
-Pi-hole returned unspecified addresses instead of the advertising domain's public IP addresses.
+Instead of returning the domain's public IP addresses, Pi-hole responded with unspecified IPv4 (`0.0.0.0`) and IPv6 (`::`) addresses, confirming that the domain was blocked.
 
-**Status: PASS — DNS filtering successful.**
+**Result: PASS — DNS filtering successfully blocked the requested domain.**
 
 ![DNS Filtering Verification](../images/software/dns-filtering-test-view01.png)
 
