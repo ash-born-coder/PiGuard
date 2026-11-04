@@ -103,6 +103,8 @@ The dashboard confirmed that Pi-hole was active and its blocklist was loaded.
 
 The interface provides DNS statistics, query logs, client activity, and filtering controls.
 
+![Pi-hole Dashboard](../images/software/pihole-dashboard.png)
+
 ## 4. DNS Resolution and Blocking Tests
 
 To verify Pi-hole's functionality without changing Windows network settings, I performed direct DNS lookups using PowerShell.
@@ -148,6 +150,8 @@ Pi-hole returned unspecified addresses instead of the advertising domain's publi
 
 **Status: PASS — DNS filtering successful.**
 
+![DNS Filtering Verification](../images/software/dns-filtering-test-view01.png)
+
 ## 5. Dashboard and Query Log Verification
 
 After running the tests, I inspected the Pi-hole dashboard and Query Log.
@@ -171,6 +175,8 @@ The Query Log confirmed:
 `A` records resolve IPv4 addresses, while `AAAA` records resolve IPv6 addresses.
 
 The queries originated from the Windows client at `192.168.0.113`.
+
+![DNS Filtering Verification](../images/software/dns-filtering-test-view02.png)
 
 ## 6. Outcome and Key Learnings
 
