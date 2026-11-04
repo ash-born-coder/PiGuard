@@ -108,6 +108,7 @@ I then queried the router directly:
 ```powershell
 nslookup google.com 192.168.0.1
 ```
+![Successful DNS Resolution Using Router](../images/software/dns-router-backup.png)
 
 The router successfully returned valid IP addresses.
 
@@ -116,10 +117,9 @@ To test DNS resolution through the Windows DNS client, I executed:
 ```powershell
 Resolve-DnsName google.com -Type A -DnsOnly
 ```
+![Windows DNS Fallback Verification](../images/software/windows-dns-fallback.png)
 
 This command successfully returned IPv4 addresses while PiGuard was offline.
-
-![Successful DNS Resolution Using Router](../images/software/dns-router-backup.png)
 
 **Result:** Windows DNS resolution remained functional during the outage, consistent with the availability of the alternate DNS server. The test did not establish strict failover behavior.
 
