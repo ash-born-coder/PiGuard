@@ -2,193 +2,157 @@
 
 ## Overview
 
-After successfully installing Raspberry Pi OS Lite and establishing an SSH connection in Milestone 1, the next step was to prepare my Raspberry Pi Zero W for running Pi-hole.
+After installing Raspberry Pi OS Lite and setting up SSH in Milestone 1, I focused on preparing my Raspberry Pi Zero W for Pi-hole.
 
-Before installing any additional software, I wanted to make sure the operating system was up to date, the hardware had enough available resources, and the network connection was working correctly.
-
-This milestone also gave me an opportunity to become more familiar with Linux commands and understand how to manage and troubleshoot a Raspberry Pi remotely.
+My goal was to update the operating system, check available resources, and verify network connectivity before installing additional software. This also gave me an opportunity to practice Linux commands and basic networking.
 
 ## 1. Updating Raspberry Pi OS
 
-I started by updating the package lists:
+I started by updating the package lists and upgrading the system:
 
 ```bash
 sudo apt update
-```
-
-The Raspberry Pi successfully connected to the software repositories and downloaded the latest package information. The terminal reported that 23 installed packages had updates available.
-
-I then upgraded the system using:
-
-```bash
 sudo apt full-upgrade -y
-```
-
-After completing the upgrade, I restarted the Raspberry Pi:
-
-```bash
 sudo reboot
 ```
 
-This was my first experience updating and restarting a Linux system entirely through SSH.
+The initial update showed 23 packages with available upgrades.
 
-### A small problem after rebooting
-
-When the Raspberry Pi restarted, my SSH connection was disconnected, which was expected.
-
-However, when I tried reconnecting using:
+After rebooting, I temporarily had trouble reconnecting through the hostname:
 
 ```powershell
 ssh ashborn@pihole.local
 ```
 
-Windows initially couldn't resolve the hostname.
-
-Since I had previously identified the Raspberry Pi's local IP address, I could also try connecting directly using:
+I could also connect using the Raspberry Pi's local IP address:
 
 ```powershell
 ssh ashborn@192.168.0.104
 ```
 
-The Raspberry Pi became accessible again, and I was able to continue working.
-
-This helped me understand the difference between connecting to a device through its hostname and connecting directly through its IP address.
+This helped me understand the difference between hostname resolution and connecting directly through an IP address.
 
 ## 2. Checking Storage and Memory
 
-With the Raspberry Pi running again, I wanted to see how much of its limited hardware resources were being used.
-
-### Storage
-
-I checked the available storage using:
+I checked the Raspberry Pi's storage and memory using:
 
 ```bash
 df -h /
-```
-
-The results were:
-
-| Total Storage | Used | Available | Usage |
-|---|---|---|---|
-| 14 GB | 2.1 GB | 12 GB | 16% |
-
-The operating system was using only a small portion of the available storage, leaving plenty of room for Pi-hole and the additional software I plan to develop.
-
-### RAM and Swap
-
-Next, I checked memory usage:
-
-```bash
 free -h
 ```
 
-| Memory | Total | Used | Available |
+| Resource | Total | Used | Available |
 |---|---|---|---|
+| Storage | 14 GB | 2.1 GB | 12 GB |
 | RAM | 426 MiB | 115 MiB | 311 MiB |
 | Swap | 425 MiB | 0 B | 425 MiB |
 
-Since the Raspberry Pi Zero W has only 512 MB of physical RAM, I wanted to make sure it wasn't already using too much memory before adding more services.
+Only 16% of the storage was being used, and the system still had approximately 311 MiB of available RAM.
 
-At the time of testing, the system had approximately 311 MiB of available RAM and wasn't using swap.
+Since the Raspberry Pi Zero W has limited hardware resources, these measurements will serve as a baseline for comparing performance after installing Pi-hole.
 
-These results gave me a useful starting point for comparing resource usage after installing Pi-hole.
+## 3. Testing Internet Connectivity
 
-## 3. Testing the Internet Connection
-
-Before setting up a DNS-based ad blocker, I needed to confirm that the Raspberry Pi could communicate with external servers.
-
-I tested the connection using:
+Before installing Pi-hole, I checked whether the Raspberry Pi could communicate with an external server.
 
 ```bash
 ping -c 4 1.1.1.1
 ```
 
-The test returned:
+The results were:
 
-- 4 packets transmitted
-- 4 packets received
+- 4 packets transmitted and received
 - 0% packet loss
-- Average response time: approximately 22.4 ms
+- Average response time of approximately 22.4 ms
 
-All four packets were received successfully, confirming that the Raspberry Pi had a working internet connection.
+This confirmed that the Raspberry Pi could reach an external IP address.
 
-## 4. Verifying DNS Resolution
+## 4. Testing DNS Resolution
 
-Since Pi-hole works by filtering DNS requests, understanding DNS is an important part of this project.
+Since Pi-hole works by filtering DNS requests, I wanted to understand how domain names are resolved into IP addresses.
 
-I tested the Raspberry Pi's existing DNS resolution using:
+I started with:
 
 ```bash
 getent hosts github.com
 ```
 
-The command returned an IP address for `github.com`, confirming that domain-name resolution was working.
+The command successfully returned an IP address for GitHub.
 
-This was an important check because Pi-hole will eventually become the DNS server used by devices on my local network.
+I then explored IPv4 resolution using:
 
-At this stage, Pi-hole had not been installed, so the Raspberry Pi was still using its existing DNS configuration.
+```bash
+getent ahostsv4 github.com
+getent ahostsv4 google.com
+```
 
-## 5. Understanding the Network Configuration
+During testing, GitHub resolved to both `140.82.121.3` and `140.82.121.4` on different lookups. Google returned six IPv4 addresses in one lookup.
 
-I then inspected the Raspberry Pi's network routes:
+I also noticed that the addresses appeared alongside three socket types: `STREAM`, `DGRAM`, and `RAW`.
+
+These experiments helped me understand that a domain can resolve to multiple IP addresses and that Linux can display address information for different socket types.
+
+Most importantly, the tests confirmed that hostname resolution was working before installing Pi-hole.
+
+### DNS Test Screenshot
+
+![DNS Resolution Test](../images/software/dns-resolution-test.png)
+
+## 5. Inspecting Network Configuration
+
+Next, I checked the Raspberry Pi's network configuration:
 
 ```bash
 ip -4 route
+cat /sys/class/net/wlan0/address
 ```
 
-This helped me identify the default gateway, local network, and active network interface.
+The results showed:
 
 | Parameter | Value |
 |---|---|
 | Hostname | pihole |
-| Network Interface | wlan0 (Wi-Fi) |
-| Local IP Address | 192.168.0.104 |
-| Default Gateway | 192.168.0.1 |
+| Interface | wlan0 (Wi-Fi) |
+| Local IP | 192.168.0.104 |
+| Gateway | 192.168.0.1 |
 | Network | 192.168.0.0/24 |
 | IP Assignment | DHCP |
 
-I also checked the Wi-Fi interface's MAC address using:
+I also identified the Wi-Fi interface's MAC address, which will be useful when configuring a DHCP reservation.
 
-```bash
-cat /sys/class/net/wlan0/address
-```
+A stable local IP address is important because other devices will eventually use PiGuard as their DNS server.
 
-The reason for checking these details was to prepare for the next stage of the project.
-
-Pi-hole needs a reliable IP address because other devices will use it to resolve domain names. My next task is to configure a DHCP reservation so that the router continues assigning the same IP address to the Raspberry Pi.
-
-For now, the network configuration has only been inspected, not modified.
+At this stage, I only inspected the network settings without modifying them.
 
 ## 6. What I Learned
 
-Although this milestone didn't involve writing much code, it helped me become more comfortable working with Linux.
+This milestone helped me become more comfortable managing a Linux system remotely.
 
 Some of the main things I learned were:
 
-- How to update and upgrade a Debian-based operating system.
-- How to restart a remote device and reconnect through SSH.
-- The difference between a hostname and an IP address.
-- How to inspect storage, RAM, and swap usage.
-- How to test internet connectivity and DNS resolution.
-- How to identify a network gateway, interface, and MAC address.
-- Why a stable local IP address matters when running a network service.
+- Updating Linux packages and rebooting through SSH.
+- Checking disk storage, RAM, and swap usage.
+- Testing connectivity using `ping`.
+- Understanding DNS and IPv4 address resolution.
+- Recognizing that domains can have multiple IP addresses.
+- Identifying the gateway, network interface, and MAC address.
+- Understanding why a stable IP address matters for Pi-hole.
 
-I also started to understand the importance of testing a system before installing additional software, especially when working with hardware that has limited resources.
+I also learned that `ping` and `getent` test different aspects of networking. One checks whether a destination responds, while the other checks hostname resolution.
 
 ## 7. Milestone Outcome
 
-By the end of this milestone, I had successfully:
+By the end of Milestone 2, I had:
 
-- Updated the Raspberry Pi's package information and initiated the system upgrade.
-- Rebooted and reconnected to the Raspberry Pi through SSH.
-- Verified available storage and memory.
-- Confirmed that internet connectivity was working.
-- Verified DNS resolution.
-- Identified the network settings needed for the next stage.
+- Updated the system and rebooted successfully.
+- Verified storage and memory availability.
+- Confirmed internet connectivity.
+- Tested DNS resolution using GitHub and Google.
+- Identified the network settings needed for Pi-hole.
 
-The Raspberry Pi Zero W is now ready for the next phase of PiGuard.
+The Raspberry Pi Zero W is now prepared for the next stage of the project.
 
-**Next milestone: Installing Pi-hole, configuring a stable network address, and testing DNS-based ad blocking.**
+**Next milestone:** Configure a DHCP reservation, install Pi-hole, and test DNS-based ad blocking.
 
 ---
 
