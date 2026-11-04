@@ -44,7 +44,7 @@ free -h
 | Resource | Total | Used | Available |
 |---|---|---|---|
 | Storage | 14 GB | 2.1 GB | 12 GB |
-| RAM | 426 MiB | 115 MiB | 311 MiB |
+| RAM | 426 MiB | 111 MiB | 315 MiB |
 | Swap | 425 MiB | 0 B | 425 MiB |
 
 Only 16% of the storage was being used, and the system still had approximately 311 MiB of available RAM.
@@ -69,8 +69,7 @@ The results were:
 
 - 4 packets transmitted and received
 - 0% packet loss
-- Average response time of approximately 22.4 ms
-
+- The first test had an average response time of approximately 12 ms, with 0% packet loss.
 This confirmed that the Raspberry Pi could reach an external IP address.
 
 ### Network Connectivity Test
